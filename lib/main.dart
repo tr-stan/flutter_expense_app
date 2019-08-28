@@ -26,7 +26,7 @@ class MyHomePage extends StatelessWidget {
     Transaction(
       id: 't2',
       title: 'Central Market Hazelnut Chocolate',
-      amount: 2.50,
+      amount: 14.50,
       date: DateTime.now(),
     ),
   ];
@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: double.infinity,
+            width: 300,
             child: Card(
               color: Colors.deepOrange,
               elevation: 5,
@@ -49,10 +49,11 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           Column(
-            children: transactions.map((xaction) {
-              //xaction = "transaction"
+            children: transactions.map((transaction) {
               return Card(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -61,17 +62,37 @@ class MyHomePage extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.black,
+                          color: Color(0xFF779988),
                           width: 2,
                         ),
                       ),
                       padding: EdgeInsets.all(10),
-                      child: Text(xaction.amount.toString()),
+                      child: Text(
+                        transaction.amount.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color(0xFF779988),
+                        ),
+                      ),
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(xaction.title),
-                        Text(xaction.date.toString()),
+                        Text(
+                          transaction.title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          transaction.date.toString(),
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 9,
+                          ),
+                        ),
                       ],
                     )
                   ],
