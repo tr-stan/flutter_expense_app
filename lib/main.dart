@@ -20,8 +20,15 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Expense App'),
       ),
-      body: Center(
-        child: Text('Widget Playground'),
+      body: Column(
+        children: <Widget>[
+          Card(
+            child: Text('EXPENSES CHART'),
+          ),
+          Card(
+            child: Text('LIST OF EXPENSE ITEMS'),
+          )
+        ],
       ),
     );
   }
