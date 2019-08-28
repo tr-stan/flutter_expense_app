@@ -38,7 +38,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             width: double.infinity,
@@ -48,12 +48,36 @@ class MyHomePage extends StatelessWidget {
               child: Text('EXPENSES CHART'),
             ),
           ),
-          Container(
-            child: Card(
-              color: Color(0xFF33AA88),
-              elevation: 2,
-              child: Text('LIST OF EXPENSE ITEMS'),
-            ),
+          Column(
+            children: transactions.map((xaction) {
+              //xaction = "transaction"
+              return Card(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: Text(xaction.amount.toString()),
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(xaction.title),
+                        Text(xaction.date.toString()),
+                      ],
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
           )
         ],
       ),
