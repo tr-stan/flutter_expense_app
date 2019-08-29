@@ -12,7 +12,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenses',
+      theme: ThemeData(
+        // primarySwatch gives access to a whole set of shades for one color
+        primarySwatch: Colors.teal,
+        accentColor: Colors.teal.shade200,
+        fontFamily: 'Roboto',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              title: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+        // setting theme for fonts, colors, etc. just for AppBar
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -25,18 +48,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'Nike Running Shoes',
-      amount: 54.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'C. Market Hazelnut Xoclatl',
-      amount: 14.50,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Nike Running Shoes',
+    //   amount: 54.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'C. Market Hazelnut Xoclatl',
+    //   amount: 14.50,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   void _addNewTransaction(String transactionTitle, double transactionAmount) {
@@ -55,10 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _revealAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
+      backgroundColor: Colors.transparent,
       builder: (_) {
         return GestureDetector(
-        // gesture detector onTap captures the tap and set the behavior
-        // to do nothing
+          // gesture detector onTap captures the tap and set the behavior
+          // to do nothing
           onTap: () {},
           child: NewTransaction(_addNewTransaction),
           // catch the tap event and prevent it from being registered elsewhere
@@ -72,8 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF779988),
-        title: Text('Expense App'),
+        // backgroundColor: Color(0xFF779988),
+        backgroundColor: Theme.of(context).primaryColorDark,
+        title: Text('Personal Expenses'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -87,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Card(
-              color: Color(0xAABBDDCC),
+              color: Theme.of(context).primaryColorDark,
               elevation: 5,
               child: Container(
                 padding: EdgeInsets.symmetric(
@@ -95,7 +120,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   vertical: 5,
                 ),
                 width: 200,
-                child: Center(child: Text('EXPENSES CHART')),
+                height: 100,
+                child: Center(
+                    child: Text(
+                  'EXPENSES CHART',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorLight,
+                  ),
+                )),
               ),
             ),
             TransactionList(_userTransactions),
@@ -103,9 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _revealAddNewTransaction(context),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(11.0),
+        child: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => _revealAddNewTransaction(context),
+        ),
       ),
     );
   }
