@@ -19,7 +19,7 @@ class _UserTransactionsState extends State<UserTransactions> {
     ),
     Transaction(
       id: 't2',
-      title: 'Central Market Hazelnut Chocolate',
+      title: 'C. Market Hazelnut Xoclatl',
       amount: 14.50,
       date: DateTime.now(),
     ),
