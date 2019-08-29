@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+// having this as a StatefulWidget allows the data submitted
+// through the inputs in the modal to get captured and added properly
+class NewTransaction extends StatefulWidget {
   final Function addTransaction;
 
   NewTransaction(this.addTransaction);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
 
   void submitData() {
     final enteredTitle = titleController.text;
@@ -15,11 +24,15 @@ class NewTransaction extends StatelessWidget {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-
-    addTransaction(
+    // 'widget' gives this State class access to the NewTransaction class above
+    widget.addTransaction(
       enteredTitle,
       enteredAmount
     );
+
+    // closes modal sheet once form is submitted
+    // (context refers to automatic context of the State widget)
+    Navigator.of(context).pop();
   }
 
   @override
