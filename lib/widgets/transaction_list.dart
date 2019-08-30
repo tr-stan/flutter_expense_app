@@ -37,62 +37,82 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
-                  elevation: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).dividerColor,
-                            width: 2,
-                          ),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          '\$${transactions[index].amount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
+                  margin: EdgeInsets.all(8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FittedBox(
+                            child: Text('\$${transactions[index].amount}')),
                       ),
-                      // Flexible allows the rows in the column to fit
-                      // their alotted space horizontally
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // ClipRect causes the text to wrap if too long
-                              ClipRect(
-                                child: Text(
-                                  transactions[index].title,
-                                  style: Theme.of(context).textTheme.title,
-                                ),
-                              ),
-                              Text(
-                                DateFormat.yMMMd()
-                                    .format(transactions[index].date),
-                                style: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                    ),
                   ),
                 );
+                // return Card(
+                //   elevation: 2,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: <Widget>[
+                //       Container(
+                //         margin: EdgeInsets.symmetric(
+                //           vertical: 10,
+                //           horizontal: 15,
+                //         ),
+                //         decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: Theme.of(context).dividerColor,
+                //             width: 2,
+                //           ),
+                //         ),
+                //         padding: EdgeInsets.all(10),
+                //         child: Text(
+                //           '\$${transactions[index].amount.toStringAsFixed(2)}',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 20,
+                //             color: Theme.of(context).primaryColor,
+                //           ),
+                //         ),
+                //       ),
+                //       // Flexible allows the rows in the column to fit
+                //       // their alotted space horizontally
+                //       Flexible(
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(4.0),
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: <Widget>[
+                //               // ClipRect causes the text to wrap if too long
+                //               ClipRect(
+                //                 child: Text(
+                //                   transactions[index].title,
+                //                   style: Theme.of(context).textTheme.title,
+                //                 ),
+                //               ),
+                //               Text(
+                //                 DateFormat.yMMMd()
+                //                     .format(transactions[index].date),
+                //                 style: TextStyle(
+                //                   color: Colors.blueGrey,
+                //                   fontSize: 14,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // );
               },
               itemCount: transactions.length,
             ),
