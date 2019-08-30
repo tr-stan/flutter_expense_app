@@ -33,8 +33,7 @@ class TransactionList extends StatelessWidget {
                 ),
               ],
             )
-            // ListView builder allows for a varied-length ListView
-            //
+          // ListView builder allows for a varied-length ListView
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
@@ -64,21 +63,32 @@ class TransactionList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            transactions[index].title,
-                            style: Theme.of(context).textTheme.title,
+                      // Flexible allows the rows in the column to fit
+                      // their alotted space horizontally
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              // ClipRect causes the text to wrap if too long
+                              ClipRect(
+                                child: Text(
+                                  transactions[index].title,
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                              ),
+                              Text(
+                                DateFormat.yMMMd()
+                                    .format(transactions[index].date),
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            DateFormat.yMMMd().format(transactions[index].date),
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
+                        ),
                       )
                     ],
                   ),
