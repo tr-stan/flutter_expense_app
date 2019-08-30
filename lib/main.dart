@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
+              button: TextStyle(color: Colors.white),
             ),
         // setting theme for fonts, colors, etc. just for AppBar
         appBarTheme: AppBarTheme(
@@ -71,11 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String transactionTitle, double transactionAmount) {
+  void _addNewTransaction(String transactionTitle, double transactionAmount, DateTime chosenDate) {
     final newTransaction = Transaction(
       title: transactionTitle,
       amount: transactionAmount,
-      date: DateTime.now(),
+      date: chosenDate,
       id: DateTime.now().toString(),
     );
 

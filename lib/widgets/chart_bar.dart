@@ -12,13 +12,16 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: <Widget>[
         // FittexBox forces child to shrink to fit
-        FittedBox(
-        // rounded amount spent on this day
-          child: Text('\$${spendingAmount.toStringAsFixed(0)}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              )),
+        Container(
+          height: 20,
+          child: FittedBox(
+          // rounded amount spent on this day
+            child: Text('\$${spendingAmount.toStringAsFixed(0)}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                )),
+          ),
         ),
         // SizedBox for spacing
         SizedBox(
