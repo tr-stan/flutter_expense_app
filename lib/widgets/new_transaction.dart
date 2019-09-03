@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_app/widgets/adaptive_button.dart';
 import 'package:intl/intl.dart';
+import './adaptive_button.dart';
 
 // having this as a StatefulWidget allows the data submitted
 // through the inputs in the modal to get captured and added properly
@@ -95,14 +100,10 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
                       ),
                     ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text(
-                        'Choose a date.',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: _revealDatePicker,
-                    ),
+                    // custom adaptive widget to more cleanly
+                    // display either FlatButton or CupertinoButton
+                    // depending on the user's OS
+                    AdaptiveFlatButton('Choose a date', _revealDatePicker),
                   ],
                 ),
               ),
