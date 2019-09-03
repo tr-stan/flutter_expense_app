@@ -123,6 +123,86 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<Widget> _buildLandscapeContent(
+    MediaQueryData mediaQuery,
+    PreferredSizeWidget appBar,
+    Widget txListWidget,
+  ) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.title,
+          ),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.7,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget,
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    PreferredSizeWidget appBar,
+    Widget txListWidget,
+  ) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget,
+    ];
+  }
+
+  PreferredSizeWidget _buildAppBar(Function revealModal, BuildContext ctx) {
+    return Platform.isIOS ? CupertinoNavigationBar(
+      middle: Text('Personal Expenses'),
+      trailing: Row(
+        // shrinks main axis from left to right for cupertino navbar
+        // trailing > Row has no constraints
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          GestureDetector(
+            child: Icon(CupertinoIcons.add),
+            onTap: () => revealModal(ctx),
+          )
+        ],
+      ),
+    ) : AppBar(
+            // backgroundColor: Color(0xFF779988),
+            backgroundColor: Theme.of(context).primaryColorDark,
+            title: Text('Personal Expenses'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => revealModal(ctx),
+              )
+            ],
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     // instantiating MediaQuery.of(context) is better for memory/space because
@@ -133,32 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     // using ternary to determine appBar style per OS
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text('Personal Expenses'),
-            trailing: Row(
-              // shrinks main axis from left to right for cupertino navbar
-              // trailing > Row has no constraints
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _revealAddNewTransaction(context),
-                )
-              ],
-            ),
-          )
-        : AppBar(
-            // backgroundColor: Color(0xFF779988),
-            backgroundColor: Theme.of(context).primaryColorDark,
-            title: Text('Personal Expenses'),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _revealAddNewTransaction(context),
-              )
-            ],
-          );
+    final PreferredSizeWidget appBar = _buildAppBar(_revealAddNewTransaction, context);
 
     final txListWidget = Container(
       height: (mediaQuery.size.height -
@@ -169,45 +224,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     // SafeArea keeps body of app below cupertino navbar
-    final homepageBody = SafeArea(child: SingleChildScrollView(
+    final homepageBody = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Show Chart', style: Theme.of(context).textTheme.title,),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                ),
-              ],
-            ),
-          if (!isLandscape)
-            Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.3,
-              child: Chart(_recentTransactions),
-            ),
-          if (!isLandscape) txListWidget,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.7,
-                    child: Chart(_recentTransactions),
-                  )
-                : txListWidget,
+          ...isLandscape
+              ? _buildLandscapeContent(mediaQuery, appBar, txListWidget)
+              : _buildPortraitContent(mediaQuery, appBar, txListWidget),
         ],
       ),
     ));
