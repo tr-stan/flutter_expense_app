@@ -12,26 +12,28 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? Column(
-            children: <Widget>[
-              Text(
-                'No transactions to show',
-                style: Theme.of(context).textTheme.title,
-              ),
-              // this SizedBox adds 20px of vertical space between the text
-              // and the image Container
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 50,
-                child: Image.asset(
-                  'assets/images/Lines.png',
-                  fit: BoxFit.scaleDown,
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
+              children: <Widget>[
+                Text(
+                  'No transactions to show',
+                  style: Theme.of(context).textTheme.title,
                 ),
-              ),
-            ],
-          )
+                // this SizedBox adds 20px of vertical space between the text
+                // and the image Container
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/Lines.png',
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              ],
+            );
+          })
         // ListView builder allows for a varied-length ListView
         : ListView.builder(
             itemBuilder: (ctx, index) {
