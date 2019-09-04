@@ -60,7 +60,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     Transaction(
       id: 't1',
@@ -77,6 +77,27 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   bool _showChart = false;
+
+// ====== Simple Custom Lifecycle Methods for learning lifecycles ======
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  // custom lifecycle method accessible via the
+  // mixin 'WidgetsBindingObserver'
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+// ====== END OF LIFECYCLE METHODS (NO USE, JUST FOR LEARNING) ======
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((transaction) {
