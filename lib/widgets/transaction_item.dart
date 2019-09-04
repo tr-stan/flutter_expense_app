@@ -1,17 +1,41 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
 
-class TransactionItem extends StatelessWidget {
+class TransactionItem extends StatefulWidget {
   const TransactionItem({
     Key key,
     @required this.transaction,
     @required this.deleteTransaction,
   }) : super(key: key);
+  // constructor initializer list
+  // allows forwarding Key from parent class
 
   final Transaction transaction;
   final Function deleteTransaction;
+
+  @override
+  _TransactionItemState createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
+  Color _bgColor;
+
+  @override
+  void initState() {
+    const availableColors = [
+      Colors.blueGrey,
+      Colors.deepOrange,
+      Colors.teal,
+      Colors.indigo
+    ];
+
+    _bgColor = availableColors[Random().nextInt(4)];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,32 +43,33 @@ class TransactionItem extends StatelessWidget {
       margin: EdgeInsets.all(8),
       child: ListTile(
         leading: CircleAvatar(
+          backgroundColor: _bgColor,
           radius: 30,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: FittedBox(
-              child: Text('\$${transaction.amount.toStringAsFixed(0)}'),
+              child: Text('\$${widget.transaction.amount.toStringAsFixed(0)}'),
             ),
           ),
         ),
         title: Text(
-          transaction.title,
+          widget.transaction.title,
           style: Theme.of(context).textTheme.title,
         ),
         subtitle: Text(
-          DateFormat.yMMMd().format(transaction.date),
+          DateFormat.yMMMd().format(widget.transaction.date),
         ),
         trailing: MediaQuery.of(context).size.width > 360
             ? FlatButton.icon(
                 icon: const Icon(Icons.delete),
                 textColor: Color(0xFF993344),
                 label: const Text('Delete'),
-                onPressed: () => deleteTransaction(transaction.id),
+                onPressed: () => widget.deleteTransaction(widget.transaction.id),
               )
             : IconButton(
                 icon: const Icon(Icons.delete),
                 color: Theme.of(context).errorColor,
-                onPressed: () => deleteTransaction(transaction.id),
+                onPressed: () => widget.deleteTransaction(widget.transaction.id),
               ),
       ),
     );
